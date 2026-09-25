@@ -1,0 +1,27 @@
+const url = "https://jsonplaceholder.typicode.com/users";
+
+fetch(url)
+  .then((response) => response.json())
+  .then((users) => {
+    const filteredUsers = users.filter((user) => {
+      const catchPhrase = user.company.catchPhrase.toLowerCase();
+
+      // "group" / "service" ki jagah "client" ya "multi" check karein:
+      return catchPhrase.includes("client") || catchPhrase.includes("multi");
+    });
+
+    const formattedUsers = filteredUsers.map((user) => {
+      const {
+        name,
+        email,
+        address: { city },
+      } = user;
+
+      return `User: ${name} | Email: ${email} | City: ${city}`;
+    });
+
+    console.log(formattedUsers);
+  })
+  .catch((error) => {
+    console.error("Error fetching users:", error);
+  });
